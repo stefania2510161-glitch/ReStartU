@@ -1,21 +1,31 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Your Planner</title>
-    <link rel="stylesheet" href="style.css">
+    <title>ReStartU - Your Plan</title>
+    <style>
+        body { background: #0a0a0c; color: white; font-family: sans-serif; text-align: center; padding: 50px; }
+        .card { background: #16161a; padding: 30px; border-radius: 20px; border: 1px solid #00f2ff; display: inline-block; }
+        .minutes { font-size: 60px; color: #00f2ff; font-weight: bold; }
+        .pomodoro { margin-top: 20px; color: #bc13fe; font-size: 20px; }
+    </style>
 </head>
 <body>
+    <div class="card">
+        <h2>AI Recommended Study Time</h2>
+        <div class="minutes" id="totalMins">--</div>
+        <div class="pomodoro" id="breakdown">Calculating sessions...</div>
+        <br>
+        <button onclick="window.location.href='index.html'" style="cursor:pointer; padding:10px; border-radius:10px; background:none; color:white; border:1px solid #555;">Back to Start</button>
+    </div>
 
-<div class="main-container">
-    <h2 id="dayText"></h2>
-    <h3 id="difficultyText"></h3>
+    <script>
+        // Grab the result that script.js saved in the browser's memory
+        const mins = localStorage.getItem('studyMins');
+        document.getElementById('totalMins').innerText = mins + " Mins";
 
-    <div id="questionBox" style="margin:20px 0;"></div>
-
-    <button id="completeBtn">Completed</button>
-    <button id="notCompleteBtn">Not Completed</button>
-</div>
-
-<script src="script.js"></script>
+        // The Pomodoro Logic
+        const sessions = Math.floor(mins / 25);
+        document.getElementById('breakdown').innerText = `Structure: ${sessions} Pomodoro sessions (25m each)`;
+    </script>
 </body>
 </html>
