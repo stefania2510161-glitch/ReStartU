@@ -33,18 +33,19 @@ def verify(score: int, fatigue: int):
 
 @app.get("/get-session")
 def get_session(confidence: int, days_off: int, free_hours: int):
-    # 1. Study Minutes Math
-    study_mins = (days_off * -0.5) + (confidence * 5.0) + 40
+    # This formula now matches your Colab "Training Data" exactly
+    # Formula: (Conf * 10) - (Off * 5) + (Free * 8) + 20
+    study_mins = (confidence * 10) - (days_off * 5) + (free_hours * 8) + 20
+    
     study_mins = max(15, round(study_mins)) 
     
-    # 2. Remaining Free Time Math
     total_available_mins = free_hours * 60
     remaining_free_mins = total_available_mins - study_mins
     
-    # 3. The Return (The JSON the browser sees)
     return {
         "recommended_minutes": study_mins,
         "remaining_free_time": max(0, remaining_free_mins),
         "message": "ReStartU Plan Generated!"
     }
+
 
