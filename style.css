@@ -1,79 +1,126 @@
-// Landing Page
-if (document.getElementById("startBtn")) {
-    document.getElementById("startBtn").addEventListener("click", function () {
-        window.location.href = "input.html";
-    });
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
 }
 
-// Input Page
-if (document.getElementById("predictBtn")) {
-    document.getElementById("predictBtn").addEventListener("click", function () {
-
-        let breakDays = Number(document.getElementById("breakDays").value);
-        let confidence = Number(document.getElementById("confidence").value);
-        let freeHours = Number(document.getElementById("freeHours").value);
-
-        // ML-based formula (from linear regression idea)
-        let difficulty =
-            (0.02 * breakDays) +
-            (0.5 * confidence) +
-            (0.3 * freeHours) + 1;
-
-        difficulty = Math.round(difficulty);
-        difficulty = Math.max(1, Math.min(3, difficulty));
-
-        localStorage.setItem("difficulty", difficulty);
-        localStorage.setItem("day", 1);
-
-        window.location.href = "planner.html";
-    });
+body {
+    background-color: #121417; /* Deep Charcoal */
+    color: white;
+    line-height: 1.6;
 }
 
-// Planner Page
-if (document.getElementById("dayText")) {
+/* Navigation */
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 25px 80px;
+}
 
-    let difficulty = Number(localStorage.getItem("difficulty")) || 1;
-    let day = Number(localStorage.getItem("day")) || 1;
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+}
 
-    document.getElementById("dayText").innerText = "Day " + day;
-    document.getElementById("difficultyText").innerText = "Difficulty: " + difficulty;
+.logo span {
+    color: #00f2ff; /* Cyan accent */
+}
 
-    let easy = ["Revise basics", "Solve 5 easy questions"];
-    let medium = ["Solve 10 moderate questions", "Write short notes"];
-    let hard = ["Take 30 min mock test", "Mixed concept practice"];
+.login-btn {
+    background: transparent;
+    border: 1px solid #00f2ff;
+    color: #00f2ff;
+    padding: 8px 25px;
+    border-radius: 5px;
+    cursor: pointer;
+}
 
-    function generateQuestion() {
-        let question;
+/* Hero Section */
+.main-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    text-align: center;
+    padding-top: 50px;
+}
 
-        if (difficulty === 1)
-            question = easy[Math.floor(Math.random() * easy.length)];
-        else if (difficulty === 2)
-            question = medium[Math.floor(Math.random() * medium.length)];
-        else
-            question = hard[Math.floor(Math.random() * hard.length)];
+.badge {
+    display: inline-block;
+    border: 1px solid #333;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 13px;
+    color: #00f2ff;
+    margin-bottom: 20px;
+    background: rgba(255, 255, 255, 0.05);
+}
 
-        document.getElementById("questionBox").innerText = question;
-    }
+h1 {
+    font-size: 50px;
+    margin-bottom: 20px;
+}
 
-    generateQuestion();
+.cyan-text { 
+    color: #00f2ff; 
+}
 
-    document.getElementById("completeBtn").addEventListener("click", function () {
-        difficulty++;
-        day++;
+.purple-text { 
+    color: #a855f7; 
+}
 
-        localStorage.setItem("difficulty", difficulty);
-        localStorage.setItem("day", day);
+p {
+    color: #9ca3af;
+    max-width: 600px;
+    margin: 0 auto 30px;
+}
 
-        location.reload();
-    });
+.get-started {
+    background-color: #00f2ff;
+    color: black;
+    border: none;
+    padding: 15px 40px;
+    border-radius: 30px;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0px 5px 15px rgba(0, 242, 255, 0.3);
+}
 
-    document.getElementById("notCompleteBtn").addEventListener("click", function () {
-        difficulty = Math.max(1, difficulty - 1);
-        day++;
+/* Features Cards */
+.features-grid {
+    display: flex;
+    gap: 20px;
+    margin-top: 80px;
+    padding-bottom: 50px;
+}
 
-        localStorage.setItem("difficulty", difficulty);
-        localStorage.setItem("day", day);
+.card {
+    background: #1c1f26;
+    padding: 40px 30px;
+    border-radius: 15px;
+    flex: 1;
+    border: 1px solid #2d3139;
+    transition: 0.3s;
+}
 
-        location.reload();
-    });
+/* The Glowing Middle Card */
+.card.active {
+    border: 2px solid #00f2ff;
+    box-shadow: 0px 0px 20px rgba(0, 242, 255, 0.2);
+}
+
+.icon {
+    font-size: 40px;
+    margin-bottom: 15px;
+}
+
+h3 {
+    margin-bottom: 15px;
+    font-size: 22px;
+}
+
+.card p {
+    font-size: 14px;
 }
