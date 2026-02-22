@@ -2,17 +2,20 @@
 <html>
 <head>
     <title>Enter Details</title>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        body { background: #0a0a0c; color: white; font-family: 'Inter', sans-serif; text-align: center; padding-top: 100px; }
+        .main-container { background: #16161a; padding: 40px; border-radius: 20px; display: inline-block; border: 1px solid #333; }
+        input { display: block; margin: 15px auto; padding: 12px; width: 250px; border-radius: 8px; border: 1px solid #444; background: #0a0a0c; color: white; }
+        button { background: #00f2ff; color: black; padding: 12px 30px; border: none; border-radius: 25px; font-weight: bold; cursor: pointer; font-size: 16px; }
+    </style>
 </head>
 <body>
 
 <div class="main-container">
-    <h2>Tell Us About You</h2>
-
-    <input type="number" id="breakDays" placeholder="Days of Break"><br><br>
-    <input type="number" id="confidence" placeholder="Confidence (1-10)"><br><br>
-    <input type="number" id="freeHours" placeholder="Free Hours per Day"><br><br>
-
+    <h2 style="color: #00f2ff;">Tell Us About You</h2>
+    <input type="number" id="breakDays" placeholder="Days of Break">
+    <input type="number" id="confidence" placeholder="Confidence (1-10)">
+    <input type="number" id="freeHours" placeholder="Free Hours per Day">
     <button id="predictBtn">Start My Plan</button>
 </div>
 
