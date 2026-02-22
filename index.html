@@ -6,14 +6,7 @@
     <title>ReStartU - Your New Chapter</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --bg-color: #0a0a0c;
-            --card-bg: #16161a;
-            --cyan: #00f2ff;
-            --purple: #bc13fe;
-            --text-main: #ffffff;
-            --text-dim: #a0a0a0;
-        }
+        :root { --bg-color: #0a0a0c; --card-bg: #16161a; --cyan: #00f2ff; --purple: #bc13fe; --text-main: #ffffff; }
         body { margin: 0; font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-main); }
         nav { display: flex; justify-content: space-between; padding: 20px 80px; align-items: center; }
         .logo { font-size: 24px; font-weight: 700; }
@@ -22,54 +15,33 @@
         h1 { font-size: 56px; margin-bottom: 20px; }
         .cyan-text { color: var(--cyan); }
         .purple-text { color: var(--purple); }
-        .get-started { background: linear-gradient(90deg, var(--cyan), var(--purple)); border: none; color: white; padding: 15px 40px; border-radius: 30px; font-weight: 700; cursor: pointer; font-size: 18px; }
+        .get-started { background: linear-gradient(90deg, var(--cyan), var(--purple)); border: none; color: white; padding: 15px 40px; border-radius: 30px; font-weight: 700; cursor: pointer; font-size: 18px; box-shadow: 0 0 20px rgba(0, 242, 255, 0.3); }
         .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 60px; }
         .card { background: var(--card-bg); padding: 20px; border-radius: 15px; border: 1px solid #333; text-align: left; }
-        #result-display { display: none; margin-top: 30px; padding: 20px; background: #222; border-radius: 10px; border-left: 5px solid var(--cyan); }
     </style>
 </head>
 <body>
     <nav>
         <div class="logo">ReStart<span>U</span></div>
-        <button style="background:transparent; color:white; border:1px solid #555; padding:5px 15px; border-radius:15px;">Login</button>
     </nav>
 
     <div class="main-container">
         <h1>Restart Your <br> <span class="cyan-text">Academic</span> <span class="purple-text">Journey</span></h1>
         <p style="color: #a0a0a0; margin-bottom: 30px;">Bridge the gap between your vacation and your goals.</p>
         
-        <button class="get-started" id="predictBtn">Get Started</button>
-
-        <div id="result-display">
-            <h2 id="sessionTime" style="margin:0;">Calculating...</h2>
-            <p style="margin:5px 0 0 0; color: #00f2ff;">Recommended Study Session</p>
-        </div>
+        <button class="get-started" id="startBtn">Get Started</button>
 
         <div class="features-grid">
-            <div class="card"><h3>📅 Schedule</h3><p>Custom planners.</p></div>
+            <div class="card"><h3>📅 Schedule</h3><p>Custom planners based on AI.</p></div>
             <div class="card" style="border-color: var(--cyan);"><h3>🧠 Recovery</h3><p>Refresh fundamentals.</p></div>
             <div class="card"><h3>🎯 Tracker</h3><p>Set weekly targets.</p></div>
         </div>
     </div>
 
     <script>
-        const btn = document.getElementById('predictBtn');
-        const display = document.getElementById('result-display');
-        const timeText = document.getElementById('sessionTime');
-
-        btn.addEventListener('click', async () => {
-            btn.innerText = "Processing...";
-            try {
-                // Adjust this URL to match your coefficients!
-                const response = await fetch('http://127.0.0.1:8000/get-session?confidence=8&days_off=2');
-                const data = await response.json();
-                timeText.innerText = data.recommended_minutes + " Minutes";
-                display.style.display = "block";
-                btn.innerText = "Schedule Ready!";
-            } catch (err) {
-                alert("Is your Python backend running?");
-                btn.innerText = "Get Started";
-            }
+        // Only one job: Move to the input page
+        document.getElementById('startBtn').addEventListener('click', () => {
+            window.location.href = "input.html";
         });
     </script>
 </body>
