@@ -39,10 +39,19 @@
     </div>
 
     <script>
-        // Only one job: Move to the input page
-        document.getElementById('startBtn').addEventListener('click', () => {
+    document.getElementById('startBtn').addEventListener('click', () => {
+        // Check if the user is already logged in
+        const isLoggedIn = localStorage.getItem('isLoggedIn');
+        
+        if (isLoggedIn === 'true') {
+            // Logged in? Go straight to input.html
             window.location.href = "input.html";
-        });
+        } else {
+            // First time? Go to login.html
+            window.location.href = "login.html";
+        }
+    });
     </script>
 </body>
 </html>
+
