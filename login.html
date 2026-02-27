@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ReStartU - Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body { background: #0a0a0c; color: white; font-family: 'Inter', sans-serif; text-align: center; padding-top: 100px; margin: 0; }
+        .main-container { background: #16161a; padding: 40px; border-radius: 20px; display: inline-block; border: 1px solid #333; box-shadow: 0 0 15px rgba(188, 19, 254, 0.1); }
+        h2 { margin-bottom: 20px; }
+        .purple-text { color: #bc13fe; }
+        input { display: block; margin: 15px auto; padding: 12px; width: 250px; border-radius: 8px; border: 1px solid #444; background: #0a0a0c; color: white; font-family: 'Inter', sans-serif;}
+        input:focus { outline: none; border-color: #bc13fe; }
+        button { background: linear-gradient(90deg, #bc13fe, #00f2ff); color: white; padding: 12px 30px; border: none; border-radius: 25px; font-weight: bold; cursor: pointer; font-size: 16px; margin-top: 10px; width: 100%;}
+        .message { font-size: 14px; color: #a0a0a0; margin-top: 15px; }
+    </style>
+</head>
+<body>
+
+<div class="main-container">
+    <h2>Welcome to <span class="purple-text">ReStartU</span></h2>
+    <input type="text" id="username" placeholder="Username or Email" required>
+    <input type="password" id="password" placeholder="Password" required>
+    <button id="loginBtn">Log In</button>
+    <p class="message">Your progress will be saved locally.</p>
+</div>
+
+<script>
+    document.getElementById('loginBtn').addEventListener('click', () => {
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
+
+        if(username && password) {
+            // Store login status and username in local storage
+            localStorage.setItem('isLoggedIn', 'true');
+            localStorage.setItem('username', username);
+            
+            // Redirect to input page
+            window.location.href = "input.html";
+        } else {
+            alert("Please enter both username and password.");
+        }
+    });
+</script>
+
+</body>
+</html>
