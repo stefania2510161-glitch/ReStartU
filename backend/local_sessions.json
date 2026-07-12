@@ -1,0 +1,15 @@
+[
+  {
+    "id": "13aaee8d-677a-42ed-984d-5a116c25e02a",
+    "user_id": "demo",
+    "date": "2026-07-12T11:06:17.823147",
+    "subject": "math",
+    "confidence": 8,
+    "days_off": 1,
+    "study_hours": 3,
+    "fatigue": 2,
+    "recommended_mins": 75,
+    "completed_minutes": 0,
+    "is_completed": false
+  }
+]
