@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ReStartU Chat Planner</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Small vector symbols -->
+    <svg style="display:none;" aria-hidden="true">
+        <symbol id="starburst" viewBox="0 0 24 24">
+            <path fill="currentColor" d="M12 2l1.9 4.3L18.7 8l-4.1 1.8L12 14l-2.6-4.2L5.3 8l4.8-1.7L12 2z" />
+            <path fill="currentColor" d="M12 22l-1.9-4.3L5.3 16l4.1-1.8L12 10l2.6 4.2L18.7 16l-4.8 1.7L12 22z" opacity="0.7"/>
+        </symbol>
+    </svg>
+    <div class="page-shell">
+        <header class="top-bar">
+            <div class="logo">ReStart<span>U</span></div>
+            <div class="theme-actions">
+                <button id="themeToggle" class="pill-btn">Dark Mode</button>
+                <div class="palette-dot-group">
+                    <button class="palette-dot palette-dot-blue" data-palette="blue" aria-label="Blue palette"></button>
+                    <button class="palette-dot palette-dot-green" data-palette="green" aria-label="Green palette"></button>
+                    <button class="palette-dot palette-dot-purple" data-palette="purple" aria-label="Purple palette"></button>
+                </div>
+            </div>
+        </header>
+
+        <main class="chat-layout">
+            <section class="chat-panel">
+                <div class="chat-header">
+                    <div>
+                        <h1>Plan your study like a coach.</h1>
+                        <p>Answer a few questions and get a smart schedule with breaks, review support, and quiz suggestions.</p>
+                    </div>
+                    <div class="status-pill" id="statusPill">Waiting to start...</div>
+                </div>
+
+                <div id="messages" class="messages"></div>
+
+                <div id="scheduleContainer" class="schedule-container hidden">
+                    <div class="schedule-header">
+                        <div>
+                            <p class="section-label">Schedule Overview</p>
+                            <h2>Your study timetable</h2>
+                        </div>
+                        <button id="editPlanBtn" class="pill-btn small">Edit plan</button>
+                    </div>
+                    <div class="schedule-summary">
+                        <div><strong id="planTarget">Total study time</strong></div>
+                        <div id="planPoints">Points: 0</div>
+                    </div>
+                    <div class="table-scroll">
+                        <table id="scheduleTable" class="schedule-table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Day</th>
+                                    <th>Subject</th>
+                                    <th>Start</th>
+                                    <th>End</th>
+                                    <th>Study</th>
+                                    <th>Break</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                    <div class="slot-canvas" aria-hidden="true">
+                        <div class="slot-card purple s1">
+                            <span class="slot-time">09:00 AM</span>
+                            <span class="slot-title">Morning Focus — Algebra</span>
+                        </div>
+                        <div class="slot-card lime s2">
+                            <span class="slot-time">10:00 AM</span>
+                            <span class="slot-title">Quick Review — Notes</span>
+                        </div>
+                        <div class="slot-card purple s3">
+                            <span class="slot-time">11:00 AM</span>
+                            <span class="slot-title">Practice — Problems</span>
+                        </div>
+                        <div class="slot-card lime s4">
+                            <span class="slot-time">12:00 PM</span>
+                            <span class="slot-title">Lunch / Break</span>
+                        </div>
+                    </div>
+                    <div class="schedule-actions">
+                        <button id="saveTableBtn" class="pill-btn">Save changes</button>
+                        <button id="startTaskBtn" class="pill-btn">Start next task</button>
+                        <button id="suggestBtn" class="pill-btn secondary">Ask for suggestion</button>
+                    </div>
+                    <div id="timerPanel" class="timer-panel hidden">
+                        <div class="timer-header"><span id="timerLabel">Task timer</span></div>
+                        <div class="timer-clock" id="timerClock">00:00</div>
+                        <div class="timer-controls">
+                            <button id="stopTimerBtn" class="pill-btn secondary">Stop timer</button>
+                        </div>
+                    </div>
+                    <div class="unlock-panel">
+                        <p class="section-label">Rewards</p>
+                        <div id="unlockList" class="unlock-list"></div>
+                        <div class="progress-group">
+                            <div class="progress-bar"><span id="progressFill"></span></div>
+                            <p id="progressText">Earn points to unlock extra breaks and themes.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="chat-input-row">
+                    <input id="chatInput" type="text" placeholder="Type your answer..." autocomplete="off">
+                    <button id="sendBtn">Send</button>
+                </div>
+            </section>
+
+            <aside class="summary-panel">
+                <div class="summary-card">
+                    <h2>Need help?</h2>
+                    <p>This app is designed to create:
+                        <ul>
+                            <li>Custom subject blocks</li>
+                            <li>Break-aware study sessions</li>
+                            <li>Memory check quizzes</li>
+                            <li>Flashcards from notes</li>
+                        </ul>
+                    </p>
+                </div>
+                <div class="summary-card">
+                    <h3>Quick tips</h3>
+                    <p>Use short, honest answers. The smarter the input, the better the goal-aligned plan.</p>
+                </div>
+                <div class="icon-grid">
+                        <div class="icon-chip"><svg class="starburst" viewBox="0 0 24 24"><use href="#starburst"></use></svg> Edit schedule instantly</div>
+                        <div class="icon-chip"><svg class="starburst" viewBox="0 0 24 24"><use href="#starburst"></use></svg> Timer reminders</div>
+                        <div class="icon-chip"><svg class="starburst" viewBox="0 0 24 24"><use href="#starburst"></use></svg> Unlock neon features</div>
+                        <div class="icon-chip"><svg class="starburst" viewBox="0 0 24 24"><use href="#starburst"></use></svg> Memory review ready</div>
+                </div>
+                    <div class="vintage-gallery" style="margin-top:14px; display:grid; gap:10px;">
+                        <div class="vintage-frame v1" aria-hidden="true"></div>
+                        <div class="vintage-frame v2" aria-hidden="true"></div>
+                        <div class="vintage-frame v3" aria-hidden="true"></div>
+                    </div>
+            </aside>
+        </main>
+    </div>
+
+    <script src="chat.js"></script>
+</body>
+</html>
