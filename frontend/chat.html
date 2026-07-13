@@ -3,146 +3,126 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ReStartU Chat Planner</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>ReStartU Planner</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Small vector symbols -->
-    <svg style="display:none;" aria-hidden="true">
-        <symbol id="starburst" viewBox="0 0 24 24">
-            <path fill="currentColor" d="M12 2l1.9 4.3L18.7 8l-4.1 1.8L12 14l-2.6-4.2L5.3 8l4.8-1.7L12 2z" />
-            <path fill="currentColor" d="M12 22l-1.9-4.3L5.3 16l4.1-1.8L12 10l2.6 4.2L18.7 16l-4.8 1.7L12 22z" opacity="0.7"/>
-        </symbol>
-    </svg>
     <div class="page-shell">
         <header class="top-bar">
             <div class="logo">ReStart<span>U</span></div>
-            <div class="theme-actions">
-                <button id="themeToggle" class="pill-btn">Dark Mode</button>
-                <div class="palette-dot-group">
-                    <button class="palette-dot palette-dot-blue" data-palette="blue" aria-label="Blue palette"></button>
-                    <button class="palette-dot palette-dot-green" data-palette="green" aria-label="Green palette"></button>
-                    <button class="palette-dot palette-dot-purple" data-palette="purple" aria-label="Purple palette"></button>
+            <div class="top-actions">
+                <button id="themeToggle" class="pill-btn" type="button">Dark mode</button>
+                <div class="palette-dot-group" aria-label="Palette selector">
+                    <button class="palette-dot palette-dot-warm" data-palette="warm" aria-label="Warm sunset palette"></button>
+                    <button class="palette-dot palette-dot-cool" data-palette="cool" aria-label="Cool blue palette"></button>
+                    <button class="palette-dot palette-dot-autumn" data-palette="autumn" aria-label="Retro autumn palette"></button>
                 </div>
             </div>
         </header>
 
-        <main class="chat-layout">
-            <section class="chat-panel">
-                <div class="chat-header">
-                    <div>
-                        <h1>Plan your study like a coach.</h1>
-                        <p>Answer a few questions and get a smart schedule with breaks, review support, and quiz suggestions.</p>
-                    </div>
-                    <div class="status-pill" id="statusPill">Waiting to start...</div>
+        <main class="app-shell">
+            <section id="authView" class="auth-card">
+                <div class="auth-copy">
+                    <p class="badge">Scholar planning, made calm</p>
+                    <h1>Plan your study days with clarity.</h1>
+                    <p>Sign in to begin your first setup, choose a palette, and build your subject list without the clutter.</p>
                 </div>
-
-                <div id="messages" class="messages"></div>
-
-                <div id="scheduleContainer" class="schedule-container hidden">
-                    <div class="schedule-header">
-                        <div>
-                            <p class="section-label">Schedule Overview</p>
-                            <h2>Your study timetable</h2>
-                        </div>
-                        <button id="editPlanBtn" class="pill-btn small">Edit plan</button>
-                    </div>
-                    <div class="schedule-summary">
-                        <div><strong id="planTarget">Total study time</strong></div>
-                        <div id="planPoints">Points: 0</div>
-                    </div>
-                    <div class="table-scroll">
-                        <table id="scheduleTable" class="schedule-table">
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Day</th>
-                                    <th>Subject</th>
-                                    <th>Start</th>
-                                    <th>End</th>
-                                    <th>Study</th>
-                                    <th>Break</th>
-                                    <th>Status</th>
-                                </tr>
-                            </thead>
-                            <tbody></tbody>
-                        </table>
-                    </div>
-                    <div class="slot-canvas" aria-hidden="true">
-                        <div class="slot-card purple s1">
-                            <span class="slot-time">09:00 AM</span>
-                            <span class="slot-title">Morning Focus — Algebra</span>
-                        </div>
-                        <div class="slot-card lime s2">
-                            <span class="slot-time">10:00 AM</span>
-                            <span class="slot-title">Quick Review — Notes</span>
-                        </div>
-                        <div class="slot-card purple s3">
-                            <span class="slot-time">11:00 AM</span>
-                            <span class="slot-title">Practice — Problems</span>
-                        </div>
-                        <div class="slot-card lime s4">
-                            <span class="slot-time">12:00 PM</span>
-                            <span class="slot-title">Lunch / Break</span>
-                        </div>
-                    </div>
-                    <div class="schedule-actions">
-                        <button id="saveTableBtn" class="pill-btn">Save changes</button>
-                        <button id="startTaskBtn" class="pill-btn">Start next task</button>
-                        <button id="suggestBtn" class="pill-btn secondary">Ask for suggestion</button>
-                    </div>
-                    <div id="timerPanel" class="timer-panel hidden">
-                        <div class="timer-header"><span id="timerLabel">Task timer</span></div>
-                        <div class="timer-clock" id="timerClock">00:00</div>
-                        <div class="timer-controls">
-                            <button id="stopTimerBtn" class="pill-btn secondary">Stop timer</button>
-                        </div>
-                    </div>
-                    <div class="unlock-panel">
-                        <p class="section-label">Rewards</p>
-                        <div id="unlockList" class="unlock-list"></div>
-                        <div class="progress-group">
-                            <div class="progress-bar"><span id="progressFill"></span></div>
-                            <p id="progressText">Earn points to unlock extra breaks and themes.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="chat-input-row">
-                    <input id="chatInput" type="text" placeholder="Type your answer..." autocomplete="off">
-                    <button id="sendBtn">Send</button>
-                </div>
+                <button id="signInBtn" class="google-btn" type="button">Continue with Google</button>
+                <p class="helper-text">This demo uses a local sign-in flow for now, with session persistence in your browser.</p>
             </section>
 
-            <aside class="summary-panel">
-                <div class="summary-card">
-                    <h2>Need help?</h2>
-                    <p>This app is designed to create:
-                        <ul>
-                            <li>Custom subject blocks</li>
-                            <li>Break-aware study sessions</li>
-                            <li>Memory check quizzes</li>
-                            <li>Flashcards from notes</li>
-                        </ul>
-                    </p>
+            <section id="onboardingView" class="onboarding-card hidden">
+                <div class="card-heading">
+                    <p class="section-label">Welcome</p>
+                    <h2>Create your study profile</h2>
+                    <p>We’ll use this setup to personalize your workspace.</p>
                 </div>
-                <div class="summary-card">
-                    <h3>Quick tips</h3>
-                    <p>Use short, honest answers. The smarter the input, the better the goal-aligned plan.</p>
-                </div>
-                <div class="icon-grid">
-                        <div class="icon-chip"><svg class="starburst" viewBox="0 0 24 24"><use href="#starburst"></use></svg> Edit schedule instantly</div>
-                        <div class="icon-chip"><svg class="starburst" viewBox="0 0 24 24"><use href="#starburst"></use></svg> Timer reminders</div>
-                        <div class="icon-chip"><svg class="starburst" viewBox="0 0 24 24"><use href="#starburst"></use></svg> Unlock neon features</div>
-                        <div class="icon-chip"><svg class="starburst" viewBox="0 0 24 24"><use href="#starburst"></use></svg> Memory review ready</div>
-                </div>
-                    <div class="vintage-gallery" style="margin-top:14px; display:grid; gap:10px;">
-                        <div class="vintage-frame v1" aria-hidden="true"></div>
-                        <div class="vintage-frame v2" aria-hidden="true"></div>
-                        <div class="vintage-frame v3" aria-hidden="true"></div>
+                <form id="onboardingForm" class="form-grid">
+                    <label>
+                        <span>Name</span>
+                        <input id="nameInput" name="name" type="text" required>
+                    </label>
+                    <label>
+                        <span>Username</span>
+                        <input id="usernameInput" name="username" type="text" required>
+                    </label>
+                    <label>
+                        <span>Age</span>
+                        <input id="ageInput" name="age" type="number" min="14" max="40">
+                    </label>
+                    <label>
+                        <span>Gender <small>(optional)</small></span>
+                        <input id="genderInput" name="gender" type="text" placeholder="Optional">
+                    </label>
+                    <label>
+                        <span>Year of Education</span>
+                        <input id="yearInput" name="year" type="text" placeholder="e.g. 2nd year">
+                    </label>
+                    <button class="get-started" type="submit">Continue to workspace</button>
+                </form>
+            </section>
+
+            <section id="workspaceView" class="workspace-grid hidden">
+                <div class="workspace-main">
+                    <div class="hero-card panel">
+                        <div>
+                            <p class="section-label">Workspace</p>
+                            <h2 id="welcomeTitle">Welcome back.</h2>
+                            <p id="welcomeText">Your planner is ready. Add subjects, create your weekly structure, and keep the flow light.</p>
+                        </div>
+                        <button id="addSubjectQuickBtn" class="icon-btn" type="button" aria-label="Add a new study component">+</button>
                     </div>
-            </aside>
+
+                    <div class="panel subject-panel">
+                        <div class="panel-header">
+                            <div>
+                                <p class="section-label">Subject collection</p>
+                                <h3>Build your study list</h3>
+                            </div>
+                            <button id="addSubjectBtn" class="icon-btn" type="button" aria-label="Add a new subject">+</button>
+                        </div>
+                        <div class="collector-box">
+                            <textarea id="subjectInput" placeholder="Type subjects here, one per line or separated by commas"></textarea>
+                            <div class="collector-actions">
+                                <button id="addSubjectsBtn" class="pill-btn" type="button">Add subjects</button>
+                                <button id="generatePlanBtn" class="get-started" type="button">Generate timetable</button>
+                            </div>
+                            <div id="subjectList" class="subject-list"></div>
+                        </div>
+                    </div>
+
+                    <div class="panel planner-panel">
+                        <div class="panel-header">
+                            <div>
+                                <p class="section-label">Timetable</p>
+                                <h3>Your study rhythm</h3>
+                            </div>
+                        </div>
+                        <div id="planSummary" class="plan-summary">No timetable yet. Add subjects to begin.</div>
+                        <div id="timetableList" class="timetable-list"></div>
+                    </div>
+                </div>
+
+                <aside class="workspace-sidebar">
+                    <div class="panel history-panel">
+                        <div class="card-heading compact">
+                            <h3>Recent plans</h3>
+                            <button id="newChatBtn" class="text-btn" type="button">+ New</button>
+                        </div>
+                        <div id="historyList" class="history-list"></div>
+                        <button id="deleteChatBtn" class="pill-btn secondary" type="button">Delete chat</button>
+                    </div>
+
+                    <div class="panel tips-panel">
+                        <h3>What’s next</h3>
+                        <ul>
+                            <li>List your main subjects.</li>
+                            <li>Choose your study rhythm.</li>
+                            <li>Keep your plan calm and realistic.</li>
+                        </ul>
+                    </div>
+                </aside>
+            </section>
         </main>
     </div>
 
