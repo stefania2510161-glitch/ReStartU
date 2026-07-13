@@ -27,8 +27,8 @@
                     <h1>Plan your study days with clarity.</h1>
                     <p>Sign in to begin your first setup, choose a palette, and build your subject list without the clutter.</p>
                 </div>
-                <button id="signInBtn" class="google-btn" type="button">Continue with Google</button>
-                <p class="helper-text">This demo uses a local sign-in flow for now, with session persistence in your browser.</p>
+                <div id="signInBtn" class="google-btn" aria-label="Continue with Google"></div>
+                <p class="helper-text">Sign in with Google to unlock the planner experience. If a Google client ID is not configured yet, the app will continue in local demo mode.</p>
             </section>
 
             <section id="onboardingView" class="onboarding-card hidden">
@@ -126,6 +126,8 @@
         </main>
     </div>
 
+    <script src="auth-config.js"></script>
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script src="chat.js"></script>
 </body>
 </html>

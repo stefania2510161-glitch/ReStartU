@@ -1,4 +1,5 @@
-const API_BASE = 'http://127.0.0.1:8000';
+const API_BASE = window.location.origin || 'http://127.0.0.1:8000';
+let googleUser = null;
 const authView = document.getElementById('authView');
 const onboardingView = document.getElementById('onboardingView');
 const workspaceView = document.getElementById('workspaceView');
@@ -283,7 +284,34 @@ async function generatePlan() {
 }
 
 function startAuth() {
+    if (window.google && window.google.accounts) {
+        window.google.accounts.id.prompt();
+        return;
+    }
+
     state.auth = true;
+    state.profile.name = state.profile.name || 'Guest';
+    saveState();
+    if (state.onboarded) {
+        showView(workspaceView);
+        renderWorkspace();
+    } else {
+        showView(onboardingView);
+    }
+}
+
+function handleGoogleCredentialResponse(response) {
+    const payload = JSON.parse(atob(response.credential.split('.')[1]));
+    googleUser = payload;
+    state.auth = true;
+    state.profile = {
+        ...state.profile,
+        name: payload.name || '',
+        username: payload.given_name || payload.email?.split('@')[0] || '',
+        age: state.profile.age || '',
+        gender: state.profile.gender || '',
+        year: state.profile.year || '',
+    };
     saveState();
     if (state.onboarded) {
         showView(workspaceView);
@@ -328,7 +356,13 @@ function deleteCurrentChat() {
     renderPlan();
 }
 
-signInBtn.addEventListener('click', startAuth);
+if (signInBtn) {
+    signInBtn.addEventListener('click', (event) => {
+        if (event.target === signInBtn) {
+            startAuth();
+        }
+    });
+}
 onboardingForm.addEventListener('submit', completeOnboarding);
 addSubjectsBtn.addEventListener('click', addSubjectFromInput);
 addSubjectBtn.addEventListener('click', addQuickSubject);
@@ -353,6 +387,19 @@ window.addEventListener('load', () => {
     loadState();
     applyTheme();
     applyPalette(state.palette);
+
+    if (window.google?.accounts?.id && window.RESTARTU_GOOGLE_CLIENT_ID) {
+        window.google.accounts.id.initialize({
+            client_id: window.RESTARTU_GOOGLE_CLIENT_ID,
+            callback: handleGoogleCredentialResponse,
+        });
+        window.google.accounts.id.renderButton(document.getElementById('signInBtn'), {
+            theme: 'outline',
+            size: 'large',
+            text: 'continue_with',
+            shape: 'pill',
+        });
+    }
 
     if (!state.auth) {
         showView(authView);

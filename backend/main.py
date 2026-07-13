@@ -9,6 +9,8 @@ import numpy as np
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
 try:
@@ -39,6 +41,7 @@ if openai and OPENAI_API_KEY:
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 MODEL_PATH = os.path.join(CURRENT_DIR, "brain.joblib")
 LOCAL_DB_PATH = os.path.join(CURRENT_DIR, "local_sessions.json")
+FRONTEND_DIR = os.path.abspath(os.path.join(CURRENT_DIR, "..", "frontend"))
 
 SUBJECT_DIFFICULTY_MAP = {
     "mathematics": 5,
@@ -291,6 +294,11 @@ def predict_recommended_minutes(req: SessionRequest) -> int:
 
 @app.get("/")
 def home():
+    return FileResponse(os.path.join(FRONTEND_DIR, "chat.html"))
+
+
+@app.get("/health")
+def health():
     return {"app": "ReStartU Backend", "status": "Online"}
 
 
@@ -421,5 +429,8 @@ def complete_session(req: CompleteRequest):
         return {"status": "success", "message": "Session updated."}
 
     raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Session not found")
+
+
+app.mount("/", StaticFiles(directory=FRONTEND_DIR, html=True), name="frontend")
 
 
