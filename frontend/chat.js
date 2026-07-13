@@ -70,11 +70,12 @@ function showView(view) {
     view.classList.remove('hidden');
 }
 
-function createHistoryEntry(title, preview) {
+function createHistoryEntry(title, preview, planData = null) {
     const entry = {
         id: crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random()}`,
         title,
         preview,
+        plan: planData ? JSON.parse(JSON.stringify(planData)) : null,
         updatedAt: Date.now(),
     };
     state.chatHistory = [entry, ...state.chatHistory];
@@ -106,6 +107,10 @@ function renderHistoryList() {
         `;
         item.addEventListener('click', () => {
             state.activeChatId = chat.id;
+            if (chat.plan) {
+                state.plan = chat.plan;
+                renderPlan();
+            }
             saveState();
             renderHistoryList();
         });
@@ -158,11 +163,29 @@ function renderPlan() {
         return;
     }
 
-    planSummary.innerText = `${state.plan.totalMinutes} minutes planned across ${state.plan.days} day(s)`;
-    timetableList.innerHTML = state.plan.blocks
+    const totalMinutes = state.plan.totalMinutes || 0;
+    const days = state.plan.days || 3;
+    const blocks = state.plan.blocks || [];
+
+    planSummary.innerHTML = `
+        <div class="plan-summary-card">
+            <strong>${totalMinutes} minutes planned</strong>
+            <span>Across ${days} study day(s) with a calm, steady rhythm.</span>
+        </div>
+    `;
+
+    if (!blocks.length) {
+        timetableList.innerHTML = '<div class="history-empty">Your generated blocks will appear here.</div>';
+        return;
+    }
+
+    timetableList.innerHTML = blocks
         .map((block) => `
             <div class="timetable-item">
-                <span>${block.title}</span>
+                <div>
+                    <div class="timetable-title">${block.title}</div>
+                    <div class="timetable-meta">${block.minutes ? `${block.minutes} min` : ''}${block.breakMinutes ? ` · ${block.breakMinutes} min break` : ''}</div>
+                </div>
                 <strong>${block.time}</strong>
             </div>
         `)
@@ -201,6 +224,8 @@ function buildFallbackPlan() {
     const baseMinutes = Math.max(90, state.subjects.length * 45);
     const blocks = state.subjects.slice(0, 4).map((subject, index) => ({
         title: subject,
+        minutes: 30 + index * 10,
+        breakMinutes: index === 1 ? 5 : 0,
         time: `${9 + index}:00` + (index % 2 === 0 ? ' AM' : ' PM'),
     }));
     state.plan = {
@@ -236,21 +261,24 @@ async function generatePlan() {
             throw new Error('Backend unavailable');
         }
         const data = await response.json();
-        state.plan = {
+        const planData = {
             totalMinutes: data.recommended_minutes,
             days: 3,
-            blocks: data.sessions.slice(0, 4).map((session, index) => ({
+            blocks: data.sessions.slice(0, 6).map((session, index) => ({
                 title: session.subject,
-                time: `${9 + index}:00 AM`,
+                minutes: session.study_minutes,
+                breakMinutes: session.break_minutes || 0,
+                time: `${9 + Math.floor(index / 2)}:${index % 2 === 0 ? '00' : '30'} ${index < 2 ? 'AM' : 'PM'}`,
             })),
         };
+        state.plan = planData;
         localStorage.setItem('studyMins', data.recommended_minutes);
         saveState();
         renderPlan();
-        createHistoryEntry('Plan generated', `${state.subjects.length} subjects ready`);
+        createHistoryEntry('Plan generated', `${state.subjects.length} subjects ready`, planData);
     } catch (error) {
         buildFallbackPlan();
-        createHistoryEntry('Plan generated', 'Fallback timetable created');
+        createHistoryEntry('Plan generated', 'Fallback timetable created', state.plan);
     }
 }
 
@@ -285,15 +313,19 @@ function completeOnboarding(event) {
 function resetCurrentChat() {
     state.chatHistory = [];
     state.activeChatId = null;
+    state.plan = null;
     saveState();
     renderHistoryList();
+    renderPlan();
 }
 
 function deleteCurrentChat() {
     state.chatHistory = [];
     state.activeChatId = null;
+    state.plan = null;
     saveState();
     renderHistoryList();
+    renderPlan();
 }
 
 signInBtn.addEventListener('click', startAuth);

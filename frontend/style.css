@@ -983,10 +983,34 @@ nav {
     justify-content: space-between;
     align-items: center;
     gap: 12px;
-    padding: 10px 12px;
+    padding: 12px 14px;
     border-radius: 14px;
     background: var(--surface-strong);
     border: 1px solid var(--border);
+}
+
+.timetable-title {
+    font-weight: 700;
+    color: var(--text);
+}
+
+.timetable-meta {
+    margin-top: 4px;
+    font-size: 0.85rem;
+    color: var(--muted);
+}
+
+.plan-summary-card {
+    display: grid;
+    gap: 4px;
+    padding: 12px 14px;
+    border-radius: 14px;
+    background: var(--accent-soft);
+}
+
+.plan-summary-card span {
+    color: var(--muted);
+    font-size: 0.95rem;
 }
 
 .subject-chip button {
